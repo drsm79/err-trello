@@ -1,0 +1,6 @@
+[Core]
+Name = TrelloBot
+Module = trello_bot
+
+[Documentation]
+Description = Add messages to trello cards
