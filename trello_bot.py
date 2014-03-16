@@ -1,3 +1,4 @@
+import logging
 import config
 from errbot import BotPlugin, botcmd
 from trello import Cards, Boards
@@ -32,8 +33,8 @@ class TrelloBot(BotPlugin):
         """
         cards, boards = self.connect_trello()
         first_list = boards.get_list(config.__dict__.get('TRELLO_BOARD'))[0]
-        text = ' '.join(args)
-        new_card = cards.new(text, first_list['id'])
+        logging.info(args)
+        new_card = cards.new(args, first_list['id'])
         return "created card: %s" % new_card['shortUrl']
 
     @botcmd(split_args_with=' ')
@@ -44,5 +45,7 @@ class TrelloBot(BotPlugin):
         cards, _ = self.connect_trello()
         card = args[0]
         text = ' '.join(args[1:])
+        logging.info(card)
+        logging.info(text)
         cards.new_action_comment(card, text)
         return "updated card"
