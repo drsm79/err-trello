@@ -1,3 +1,4 @@
+import config
 from errbot import BotPlugin, botcmd
 from trello import Cards, Boards
 
@@ -5,12 +6,12 @@ from trello import Cards, Boards
 class TrelloBot(BotPlugin):
     def connect_trello(self):
         cards = Cards(
-            self.config["TRELLO_APP_KEY"],
-            token=self.config["TRELLO_TOKEN"]
+            config.__dict__.get("TRELLO_APP_KEY"),
+            token=config.__dict__.get("TRELLO_TOKEN")
         )
         boards = Boards(
-            self.config["TRELLO_APP_KEY"],
-            token=self.config["TRELLO_TOKEN"]
+            config.__dict__.get("TRELLO_APP_KEY"),
+            token=config.__dict__.get("TRELLO_TOKEN")
         )
         return cards, boards
 
@@ -30,7 +31,7 @@ class TrelloBot(BotPlugin):
         Create a new trello card
         """
         cards, boards = self.connect_trello()
-        first_list = boards.get_list(self.config['TRELLO_BOARD'])[0]
+        first_list = boards.get_list(config.__dict__.get('TRELLO_BOARD'))[0]
         text = ' '.join(args)
         new_card = cards.new(text, first_list['id'])
         return "created card: %s" % new_card['shortUrl']
